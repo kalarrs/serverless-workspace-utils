@@ -1,0 +1,46 @@
+service:
+  name: turtles
+
+plugins:
+  - serverless-webpack
+  - "@kalarrs/serverless-local-dev-server"
+  - "@kalarrs/serverless-shared-api-gateway"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  create:
+    handler: src/handler.create
+    events:
+      - http:
+          method: post
+          path: "turtles"
+          cors: true
+  remove:
+      handler: src/handler.remove
+      events:
+        - http:
+            method: delete
+            path: "turtles/{turtleId}"
+            cors: true
+  get:
+    handler: src/handler.get
+    events:
+      - http:
+          method: get
+          path: "turtles/{turtleId}"
+          cors: true
+  update:
+    handler: src/handler.update
+    events:
+      - http:
+          method: put
+          path: "turtles/{turtleId}"
+          cors: true
+
+custom:
+  localDevPort: 6002
+  localDevPathPrefix: '/local/api/'
+  debug: true

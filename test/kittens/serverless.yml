@@ -1,0 +1,39 @@
+service:
+  name: kittens
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  create:
+    handler: src/handler.create
+    events:
+      - http:
+          method: post
+          path: "kittens"
+          cors: true
+  remove:
+      handler: src/handler.remove
+      events:
+        - http:
+            method: delete
+            path: "kittens/{kittenId}"
+            cors: true
+  get:
+    handler: src/handler.get
+    events:
+      - http:
+          method: get
+          path: "kittens/{kittenId}"
+          cors: true
+  update:
+    handler: src/handler.update
+    events:
+      - http:
+          method: put
+          path: "kittens/{kittenId}"
+          cors: true
+
+custom:
+  localDevPort: 6000

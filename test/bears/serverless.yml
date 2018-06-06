@@ -1,0 +1,45 @@
+service:
+  name: bears
+
+plugins:
+  - serverless-webpack
+  - "@kalarrs/serverless-local-dev-server"
+  - "@kalarrs/serverless-shared-api-gateway"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  create:
+    handler: src/handler.create
+    events:
+      - http:
+          method: post
+          path: "bears"
+          cors: true
+  remove:
+      handler: src/handler.remove
+      events:
+        - http:
+            method: delete
+            path: "bears/{bearId}"
+            cors: true
+  get:
+    handler: src/handler.get
+    events:
+      - http:
+          method: get
+          path: "bears/{bearId}"
+          cors: true
+  update:
+    handler: src/handler.update
+    events:
+      - http:
+          method: put
+          path: "bears/{bearId}"
+          cors: true
+
+custom:
+  localDevPort: 5999
+  debug: true

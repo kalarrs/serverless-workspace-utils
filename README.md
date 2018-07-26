@@ -1,7 +1,7 @@
 Serverless Workspace Utils
 ==========================
 
-[![Build Status](https://travis-ci.org/exocom/serverless-workspace-utils.svg)](https://travis-ci.org/exocom/serverless-workspace-utils)
+[![Build Status](https://travis-ci.org/kalarrs/serverless-workspace-utils.svg)](https://travis-ci.org/kalarrs/serverless-workspace-utils)
 
 This plugin helps manage multiple serverless projects with multiple developers.
 

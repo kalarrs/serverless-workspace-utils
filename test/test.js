@@ -9,7 +9,7 @@ const sinon = require('sinon');
 const http = require('http');
 const https = require('https');
 const Serverless = require('serverless');
-const ServerlessProjectUtils = require('../src');
+const ServerlessWorkspaceUtils = require('../src');
 
 
 const assert = chai.assert;
@@ -20,7 +20,7 @@ describe('index.js', () => {
 
     let sandbox;
     let serverless;
-    let serverlessProjectUtils;
+    let serverlessWorkspaceUtils;
     const servers = {};
 
     const ports = {
@@ -109,7 +109,7 @@ describe('index.js', () => {
         return serverless.init().then(() => {
             serverless.config.servicePath = __dirname;
 
-            serverlessProjectUtils = new ServerlessProjectUtils(serverless, {
+            serverlessWorkspaceUtils = new ServerlessWorkspaceUtils(serverless, {
                 target: `http://localhost:${ports.default}`,
                 port: ports.proxy
             });
@@ -117,9 +117,9 @@ describe('index.js', () => {
     });
 
     afterEach((done) => {
-        if (serverlessProjectUtils) {
-            if (serverlessProjectUtils.server && serverlessProjectUtils.server.close) serverlessProjectUtils.server.close();
-            if (serverlessProjectUtils.watcher && serverlessProjectUtils.watcher.close) serverlessProjectUtils.watcher.close();
+        if (serverlessWorkspaceUtils) {
+            if (serverlessWorkspaceUtils.server && serverlessWorkspaceUtils.server.close) serverlessWorkspaceUtils.server.close();
+            if (serverlessWorkspaceUtils.watcher && serverlessWorkspaceUtils.watcher.close) serverlessWorkspaceUtils.watcher.close();
         }
         sandbox.restore();
         done();
@@ -135,7 +135,7 @@ describe('index.js', () => {
 
     describe('when no routes are loaded', () => {
         beforeEach((done) => {
-            serverlessProjectUtils.hooks['proxy:startProxyServer']();
+            serverlessWorkspaceUtils.hooks['proxy:startProxyServer']();
             done();
         });
 
@@ -166,8 +166,8 @@ describe('index.js', () => {
     describe('when severless config contains a custom domain name', () => {
         beforeEach((done) => {
             serverless.service.custom.customDomain = {domainName: `127.0.0.1:${ports.custom}`};
-            serverlessProjectUtils.commands.proxy.lifecycleEvents.forEach(e => {
-                serverlessProjectUtils.hooks[`proxy:${e}`]();
+            serverlessWorkspaceUtils.commands.proxy.lifecycleEvents.forEach(e => {
+                serverlessWorkspaceUtils.hooks[`proxy:${e}`]();
             });
             done();
         });
@@ -201,16 +201,16 @@ describe('index.js', () => {
 
     describe('when routes are loaded with watch set to false', () => {
         beforeEach((done) => {
-            serverlessProjectUtils.options.watch = false;
-            serverlessProjectUtils.commands.proxy.lifecycleEvents.forEach(e => {
-                serverlessProjectUtils.hooks[`proxy:${e}`]();
+            serverlessWorkspaceUtils.options.watch = false;
+            serverlessWorkspaceUtils.commands.proxy.lifecycleEvents.forEach(e => {
+                serverlessWorkspaceUtils.hooks[`proxy:${e}`]();
             });
             done();
         });
 
         it('should store the routes for bears, puppies, kittens, and turtles', () => {
-            return serverlessProjectUtils.loadRoutesPromise.then(() => {
-                const get = serverlessProjectUtils.routesByHttpMethod.GET;
+            return serverlessWorkspaceUtils.loadRoutesPromise.then(() => {
+                const get = serverlessWorkspaceUtils.routesByHttpMethod.GET;
 
                 const getBear = get[0];
                 assert.equal(getBear.pathPrefix, 'http/');
@@ -326,8 +326,8 @@ describe('index.js', () => {
 
     describe('when routes are loaded and watch is running', () => {
         beforeEach((done) => {
-            serverlessProjectUtils.commands.proxy.lifecycleEvents.forEach(e => {
-                serverlessProjectUtils.hooks[`proxy:${e}`]();
+            serverlessWorkspaceUtils.commands.proxy.lifecycleEvents.forEach(e => {
+                serverlessWorkspaceUtils.hooks[`proxy:${e}`]();
             });
             done();
         });
@@ -344,9 +344,9 @@ describe('index.js', () => {
             });
 
             it('should store the updated routes for puppies and kittens', () => {
-                return serverlessProjectUtils.loadRoutesPromise.then(() => {
+                return serverlessWorkspaceUtils.loadRoutesPromise.then(() => {
 
-                    const get = serverlessProjectUtils.routesByHttpMethod.GET;
+                    const get = serverlessWorkspaceUtils.routesByHttpMethod.GET;
 
                     const getKitten = get[1];
                     assert.equal(getKitten.path, 'kittens/{kittenId}');

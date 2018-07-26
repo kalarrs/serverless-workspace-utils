@@ -9,7 +9,7 @@ const pathToRegexp = require('path-to-regexp');
 const through2 = require('through2');
 
 
-class ServerlessProjectUtils {
+class ServerlessWorkspaceUtils {
     constructor(serverless, options) {
         this.loading = {
             routes: false
@@ -160,4 +160,4 @@ class ServerlessProjectUtils {
     }
 }
 
-module.exports = ServerlessProjectUtils;
+module.exports = ServerlessWorkspaceUtils;

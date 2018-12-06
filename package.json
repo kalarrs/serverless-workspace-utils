@@ -1,8 +1,8 @@
 {
   "name": "@kalarrs/serverless-workspace-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
-    "node": ">=9.0"
+    "node": ">=8.10"
   },
   "description": "Easily manage multiple serverless projects",
   "author": "Kalarrs Topham",
@@ -21,18 +21,18 @@
   },
   "dependencies": {
     "gulp": "^4.0.0",
-    "http-proxy": "^1.16.2",
-    "path-to-regexp": "^2.1.0",
+    "http-proxy": "^1.17.0",
+    "path-to-regexp": "^2.4.0",
     "stream-to-promise": "^2.2.0",
-    "through2": "^2.0.3",
+    "through2": "^3.0.0",
     "vinyl-yaml-data": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.0.4",
-    "node-fetch": "^2.1.1",
-    "nyc": "^11.4.1",
-    "serverless": "^1.26.0",
-    "sinon": "^4.4.2"
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "node-fetch": "^2.3.0",
+    "nyc": "^13.1.0",
+    "serverless": "^1.34.1",
+    "sinon": "^7.1.1"
   }
 }
